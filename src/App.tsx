@@ -176,6 +176,19 @@ export default function App() {
   });
   const [pdfFile, setPdfFile] = useState<File | null>(null);
 
+  // --- FUNÇÕES DE NAVEGAÇÃO ---
+
+  const irParaHome = () => {
+    console.log("[DEBUG] Realizando reset completo de navegação...");
+    setSelectedState(null);
+    setSelectedCourse(null);
+    setSelectedCategory(null);
+    setAdminSection('menu');
+    setEditingItem(null);
+    navigate('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Monitorar estado de autenticação
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -440,7 +453,7 @@ export default function App() {
 
   const renderCourses = () => (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <button onClick={() => setSelectedState(null)} className="flex items-center text-slate-500 hover:text-navy mb-8 font-medium">
+      <button onClick={irParaHome} className="flex items-center text-slate-500 hover:text-navy mb-8 font-medium">
         <ArrowLeft className="w-5 h-5 mr-2" /> Voltar para Estados
       </button>
       <h2 className="text-3xl font-bold text-navy mb-8">Cursos em {selectedState}</h2>
@@ -937,7 +950,7 @@ export default function App() {
       {/* Header */}
       <header className="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => { navigate('/'); setSelectedState(null); }}>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={irParaHome}>
             <div className="w-10 h-10 bg-navy rounded-xl flex items-center justify-center group-hover:bg-royal transition-colors">
               <GraduationCap className="text-white w-6 h-6" />
             </div>
