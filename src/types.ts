@@ -1,6 +1,6 @@
 export type State = 'MG' | 'RJ' | 'SP' | 'ES';
 
-export type CategoryType = 'Concurso' | 'Residência' | 'Certificação' | 'Stricto Sensu';
+export type CategoryType = 'Concurso' | 'Residência' | 'Certificação' | 'Stricto Sensu' | 'Carreira e Empreendedorismo';
 
 export interface Course {
   id: string;

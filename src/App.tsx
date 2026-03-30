@@ -62,7 +62,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const STATES: State[] = ['MG', 'RJ', 'SP', 'ES'];
-const CATEGORY_TYPES: CategoryType[] = ['Concurso', 'Residência', 'Certificação', 'Stricto Sensu'];
+const CATEGORY_TYPES: CategoryType[] = ['Concurso', 'Residência', 'Certificação', 'Stricto Sensu', 'Carreira e Empreendedorismo'];
 
 // --- COMPONENTES AUXILIARES ---
 
@@ -456,7 +456,7 @@ export default function App() {
       <button onClick={irParaHome} className="flex items-center text-slate-500 hover:text-navy mb-8 font-medium">
         <ArrowLeft className="w-5 h-5 mr-2" /> Voltar para Estados
       </button>
-      <h2 className="text-3xl font-bold text-navy mb-8">Cursos em {selectedState}</h2>
+      <h2 className="text-3xl font-bold text-navy mb-8">Setores em {selectedState}</h2>
       
       {loading ? (
         <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-royal"></div></div>
@@ -477,7 +477,7 @@ export default function App() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200 text-slate-400">Nenhum curso encontrado.</div>
+        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200 text-slate-400">Nenhum setor encontrado.</div>
       )}
     </div>
   );
@@ -485,7 +485,7 @@ export default function App() {
   const renderCategories = () => (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <button onClick={() => setSelectedCourse(null)} className="flex items-center text-slate-500 hover:text-navy mb-8 font-medium">
-        <ArrowLeft className="w-5 h-5 mr-2" /> Voltar para Cursos
+        <ArrowLeft className="w-5 h-5 mr-2" /> Voltar para Setores
       </button>
       <h2 className="text-3xl font-bold text-navy mb-2">{selectedCourse?.nome}</h2>
       <p className="text-slate-500 mb-8">Selecione uma categoria para ver os conteúdos.</p>
@@ -508,7 +508,7 @@ export default function App() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200 text-slate-400">Nenhuma categoria cadastrada para este curso.</div>
+        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200 text-slate-400">Nenhuma categoria cadastrada para este setor.</div>
       )}
     </div>
   );
@@ -600,7 +600,7 @@ export default function App() {
       {adminSection === 'menu' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { id: 'course', label: 'Criar Curso', icon: Plus, color: 'bg-royal' },
+              { id: 'course', label: 'Criar Setor', icon: Plus, color: 'bg-royal' },
               { id: 'category', label: 'Criar Categoria', icon: Layers, color: 'bg-indigo-500' },
               { id: 'content', label: 'Adicionar Conteúdo', icon: FileText, color: 'bg-emerald-500' },
               { id: 'manage', label: 'Gerenciar Conteúdos', icon: Settings, color: 'bg-slate-700' }
@@ -632,9 +632,9 @@ export default function App() {
 
           {adminSection === 'course' && (
             <form onSubmit={handleCreateCourse} className="space-y-6">
-              <h3 className="text-xl font-bold text-navy mb-4">Novo Curso</h3>
+              <h3 className="text-xl font-bold text-navy mb-4">Novo Setor</h3>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Nome do Curso</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Nome do Setor</label>
                 <input type="text" required value={formCourse.nome} onChange={e => setFormCourse({...formCourse, nome: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-royal" placeholder="Ex: Mentoria Medicina" />
               </div>
               <div>
@@ -644,7 +644,7 @@ export default function App() {
                 </select>
               </div>
               <button disabled={loading} className="w-full bg-navy text-white font-bold py-4 rounded-xl hover:bg-royal transition-all disabled:opacity-50">
-                {loading ? "Salvando..." : success ? "Curso Criado!" : "Salvar Curso"}
+                {loading ? "Salvando..." : success ? "Setor Criado!" : "Salvar Setor"}
               </button>
             </form>
           )}
@@ -653,9 +653,9 @@ export default function App() {
             <form onSubmit={handleCreateCategory} className="space-y-6">
               <h3 className="text-xl font-bold text-navy mb-4">Nova Categoria</h3>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Selecionar Curso</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Selecionar Setor</label>
                 <select required value={formCategory.curso_id} onChange={e => setFormCategory({...formCategory, curso_id: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-royal">
-                  <option value="">Selecione um curso...</option>
+                  <option value="">Selecione um setor...</option>
                   {courses.map(c => <option key={c.id} value={c.id}>{c.nome} ({c.estado})</option>)}
                 </select>
               </div>
@@ -742,10 +742,10 @@ export default function App() {
             <div className="space-y-10">
               <h3 className="text-2xl font-bold text-navy border-b pb-4">Gerenciar Conteúdos</h3>
               
-              {/* Lista de Cursos */}
+              {/* Lista de Setores */}
               <section>
                 <h4 className="text-lg font-bold text-slate-700 mb-4 uppercase tracking-wider flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-royal" /> Cursos
+                  <BookOpen className="w-5 h-5 text-royal" /> Setores
                 </h4>
                 <div className="space-y-3">
                   {courses.map(course => (
@@ -785,7 +785,7 @@ export default function App() {
                       <div key={cat.id} id={`item-${cat.id}`} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
                         <div>
                           <p className="font-bold text-navy">{cat.tipo}</p>
-                          <p className="text-sm text-slate-500">Curso: {course?.nome || 'N/A'}</p>
+                          <p className="text-sm text-slate-500">Setor: {course?.nome || 'N/A'}</p>
                         </div>
                         <div className="flex gap-2">
                           <button 
@@ -848,7 +848,7 @@ export default function App() {
           {editingItem && (
             <div className="space-y-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-navy">Editar {editingItem.type === 'course' ? 'Curso' : editingItem.type === 'category' ? 'Categoria' : 'Conteúdo'}</h3>
+                <h3 className="text-xl font-bold text-navy">Editar {editingItem.type === 'course' ? 'Setor' : editingItem.type === 'category' ? 'Categoria' : 'Conteúdo'}</h3>
                 <button onClick={() => setEditingItem(null)} className="text-slate-400 hover:text-navy">
                   <X className="w-6 h-6" />
                 </button>
@@ -858,7 +858,7 @@ export default function App() {
                 {editingItem.type === 'course' && (
                   <>
                     <div>
-                      <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Nome do Curso</label>
+                      <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Nome do Setor</label>
                       <input 
                         type="text" 
                         required 
